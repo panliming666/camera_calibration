@@ -1,0 +1,69 @@
+# 相机标定配置文件
+# 用于管理内参和外参标定的主要参数
+
+# ==============================================================================
+# 公共参数
+# ==============================================================================
+common:
+  # 标定结果保存目录（使用绝对路径）
+  output_dir: "./calib_results"
+
+# ==============================================================================
+# 内参标定参数 (bv_calibration.py)
+# ==============================================================================
+intrinsic_calibration:
+  # 图像话题
+  image_topic: "/image_raw"
+
+  # 控制话题
+  control_topic: "/camera_calibration_req"
+
+  # 结果话题
+  result_topic: "/calibration/result"
+
+  # 后内参发布话题
+  rear_intrinsics_topic: "/rear_camera_intrins"
+
+# ==============================================================================
+# 外参标定参数 (chessboard_calibration_optimized.py)
+# ==============================================================================
+extrinsic_calibration:
+  # 前方相机话题
+  front_image_topic: "/ascamera_hp60c/camera_publisher/rgb0/image"
+  front_camera_info_topic: "/ascamera_hp60c/camera_publisher/rgb0/camera_info"
+
+  # 后方相机话题
+  rear_image_topic: "/image_raw"
+
+  # 控制话题
+  control_topic: "/camera_calibration_req"
+
+  # 外参发布话题
+  front_camera_offset_topic: "/front_camera_offset"
+  rear_camera_offset_topic: "/rear_camera_offset"
+
+  # 棋盘格参数
+  board:
+    squares_x: 4          # X方向内角点数
+    squares_y: 3          # Y方向内角点数
+    square_size: 0.06     # 方格边长（米）
+
+  # 自动标定参数
+  auto_calibration:
+    enable: false          # 禁用自动标定，仅通过控制topic指令标定
+    stable_frames: 5      # 稳定检测帧数
+    min_distance: 0.5     # 最小位置变化阈值（米）
+    min_rotation: 5.0     # 最小角度变化阈值（度）
+
+  # 显示参数
+  display:
+    enable: false          # 启用图像显示
+
+  # 棋盘格位姿配置
+  board_pose:
+    front:
+      translation: [1.255, -0.148, -0.505]  # [x, y, z]
+      rotation: [90.0, 0.0, 90.0]          # [roll, pitch, yaw] (度)
+    rear:
+      translation: [-1.255, 0.148, -0.505]  # [x, y, z]
+      rotation: [90.0, 0.0, -90.0]         # [roll, pitch, yaw] (度)
